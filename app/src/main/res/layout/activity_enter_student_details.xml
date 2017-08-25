@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.anish.firebasedemo.fireBaseTuts.EnterStudentDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_8dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:hint="@string/name"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edtRollNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtName"
+            android:layout_margin="@dimen/dimen_8dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:hint="@string/roll_no"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtMarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtRollNo"
+            android:layout_margin="@dimen/dimen_8dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/marks"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/viewLine"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/txtMarks"
+            android:background="#000000" />
+
+        <EditText
+            android:id="@+id/edtM1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewLine"
+            android:layout_margin="@dimen/dimen_8dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/marks_m1"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edtM2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtM1"
+            android:layout_margin="@dimen/dimen_8dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:hint="@string/marks_m2"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/dimen_8dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/submit"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+</LinearLayout>

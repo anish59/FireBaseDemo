@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">FireBaseDemo</string>
+    <string name="reg_id">reg_Id</string>
+    <string name="msg">Msg</string>
+    <string name="add_to_firebase">Add To fireBase</string>
+    <string name="name">Name</string>
+    <string name="roll_no">Roll no</string>
+    <string name="marks">Marks</string>
+    <string name="marks_m1">Marks M1</string>
+    <string name="marks_m2">Marks M2</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -1,19 +1,35 @@
 package com.example.anish.firebasedemo.services;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.anish.firebasedemo.AppConstant;
 import com.example.anish.firebasedemo.MainActivity;
+import com.example.anish.firebasedemo.R;
 import com.example.anish.firebasedemo.helper.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by anish on 20-07-2017.
@@ -40,12 +56,22 @@ public class MessageReceiver extends FirebaseMessagingService {
             Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
 
             try {
-                JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                handleDataMessage(json);
+//                JSONObject json = new JSONObject(remoteMessage.getData());
+                handleDataMessage(remoteMessage.getData());
             } catch (Exception e) {
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
         }
+    }
+
+    private void handleDataMessage(Map<String, String> data) {
+
+        String title = data.get("title");
+        String message = data.get("message");
+        String imageUrl = data.get("image");
+
+        System.out.println("title: " + title + ":\n" + "msg: " + message + "\n" + "imageUrl: " + imageUrl);
+        new generatePictureStyleNotification(this, "Title", "Message", imageUrl).execute();
     }
 
     private void handleDataMessage(JSONObject json) {
@@ -56,8 +82,10 @@ public class MessageReceiver extends FirebaseMessagingService {
 
             String title = data.getString("title");
             String message = data.getString("message");
-            boolean isBackground = data.getBoolean("is_background");
             String imageUrl = data.getString("image");
+
+            System.out.println("title: " + title + ":\n" + "msg: " + message + "\n" + "imageUrl: " + imageUrl);
+            boolean isBackground = data.getBoolean("is_background");
             String timestamp = data.getString("timestamp");
             JSONObject payload = data.getJSONObject("payload");
 
@@ -129,5 +157,61 @@ public class MessageReceiver extends FirebaseMessagingService {
         notificationUtils = new NotificationUtils(context);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
+    }
+
+    public class generatePictureStyleNotification extends AsyncTask<String, Void, Bitmap> {
+
+        private Context mContext;
+        private String title, message, imageUrl;
+
+        public generatePictureStyleNotification(Context context, String title, String message, String imageUrl) {
+            super();
+            this.mContext = context;
+            this.title = title;
+            this.message = message;
+            this.imageUrl = imageUrl;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+
+            InputStream in;
+            try {
+                URL url = new URL(this.imageUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                in = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(in);
+                return myBitmap;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+
+            Intent intent = new Intent(mContext, MainActivity.class);
+            intent.putExtra("key", "value");
+            PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 100, intent, PendingIntent.FLAG_ONE_SHOT);
+
+            NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification notif = new Notification.Builder(mContext)
+                    .setContentIntent(pendingIntent)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setLargeIcon(result)
+                    .setStyle(new Notification.BigPictureStyle().bigPicture(result))
+                    .build();
+            notif.flags |= Notification.FLAG_AUTO_CANCEL;
+            notificationManager.notify(1, notif);
+        }
     }
 }

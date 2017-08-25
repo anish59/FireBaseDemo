@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     private Context context = this;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                     // now subscribe to `global` topic to receive app wide notifications
                     FirebaseMessaging.getInstance().subscribeToTopic(AppConstant.TOPIC_GLOBAL);
 
-                    displayFirebaseRegId();
+                    displayFireBaseRegId();
 
                 } else if (intent.getAction().equals(AppConstant.PUSH_NOTIFICATION)) {
                     // new push notification is received
@@ -54,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-        displayFirebaseRegId();
+        displayFireBaseRegId();
     }
 
-    private void displayFirebaseRegId() {
+    private void displayFireBaseRegId() {
 
         if (!TextUtils.isEmpty(PrefUtils.getRegId(context)))
             txtRegId.setText("FireBase Reg Id: " + PrefUtils.getRegId(context));
