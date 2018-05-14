@@ -9,4 +9,8 @@
     <string name="marks_m1">Marks M1</string>
     <string name="marks_m2">Marks M2</string>
     <string name="submit">Submit</string>
+    <string name="send_pubnub_notification">Send PubNub Notification</string>
+    <string name="com.pubnub.publishKey" translatable="false">pub-c-252e60ab-5e75-4d6a-b5af-4b34517afacc</string>
+    <string name="com.pubnub.secretKey" translatable="false">sec-c-YmIyNmU5MjQtNDY2ZS00ZGRjLTllNDctNjY5Y2ZhMmIzMmNj</string>
+    <string name="com.pubnub.subscribeKey" translatable="false">sub-c-86e368de-a367-11e7-af4e-0a68e4e3f63a</string>
 </resources>

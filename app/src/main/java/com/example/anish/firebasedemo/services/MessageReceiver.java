@@ -17,9 +17,11 @@ import android.util.Log;
 import com.example.anish.firebasedemo.AppConstant;
 import com.example.anish.firebasedemo.MainActivity;
 import com.example.anish.firebasedemo.R;
+import com.example.anish.firebasedemo.fireBaseTuts.model.Info;
 import com.example.anish.firebasedemo.helper.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +46,6 @@ public class MessageReceiver extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         if (remoteMessage == null)
             return;
-
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
@@ -69,9 +70,11 @@ public class MessageReceiver extends FirebaseMessagingService {
         String title = data.get("title");
         String message = data.get("message");
         String imageUrl = data.get("image");
-
+        String infoData = data.get("InfoData");
+        System.out.println("infoData" + " " + infoData);
+        Info info = new Gson().fromJson(infoData, Info.class);
         System.out.println("title: " + title + ":\n" + "msg: " + message + "\n" + "imageUrl: " + imageUrl);
-        new generatePictureStyleNotification(this, "Title", "Message", imageUrl).execute();
+        new generatePictureStyleNotification(this, title, message, imageUrl).execute();
     }
 
     private void handleDataMessage(JSONObject json) {

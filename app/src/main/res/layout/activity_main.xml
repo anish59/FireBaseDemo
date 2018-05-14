@@ -36,6 +36,15 @@
         android:text="@string/add_to_firebase"
         android:textSize="8sp" />
 
+    <Button
+        android:id="@+id/btnSendPubNubNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnAdd"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:text="@string/send_pubnub_notification"
+        android:textAllCaps="false" />
+
     <TextView
         android:id="@+id/txt_reg_id"
         android:layout_width="wrap_content"
